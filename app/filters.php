@@ -35,18 +35,65 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('login');
+	if (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER)) {
+		if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+			$response = array('session_out'=> 'true');
+			if (Auth::guest()) return json_encode($response);
 		}
 	}
+	else{
+		if (Auth::guest()) return Redirect::guest('/')->with('flash_error', 'You must be logged in to view this page!');
+	}
+	
 });
+
+Route::filter(
+'ONLY_OA', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "ITL_ADMIN")
+	{
+		App::abort(404);
+	}
+});
+
+Route::filter(
+'OA_P', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "ITL_ADMIN")
+	{
+		App::abort(404);
+	}
+});
+Route::filter(
+'OA_P_D', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "ITL_ADMIN")
+	{
+		App::abort(404);
+	}
+});
+Route::filter(
+'OA_P_D_SD', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "ITL_ADMIN")
+	{
+		App::abort(404);
+	}
+});
+Route::filter(
+'ONLY_P', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "ITL_ADMIN")
+	{
+		App::abort(404);
+	}
+});
+
 
 
 Route::filter('auth.basic', function()
