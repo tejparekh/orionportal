@@ -53,7 +53,7 @@ class AuthController extends BaseController
 			return Redirect::to('/')->withErrors($objValidator)->withInput();
 		}
 
-			if (Auth::attempt(array('username' => $arrUserInput['username'], 'password' => $arrUserInput['password'], 'active' => 1)) )
+			if (Auth::attempt(array('username' => $arrUserInput['username'], 'password' => $arrUserInput['password'])) )
 				{
 					$intUserId		= Auth::user()->id;
 					$intRole		= Auth::user()->role_id;
@@ -86,13 +86,4 @@ class AuthController extends BaseController
 		return Redirect::to('/')->with('message', 'Successfully logged out.');
 	}
 
-	/**
-	 * Do activate the subscriber from the tv box. And provide the auth token for the communication 
-	 * @return [type] [description]
-	 */
-	public function doActivateDevice()
-	{
-		$input = Input::all();
-		
-	}
 }
