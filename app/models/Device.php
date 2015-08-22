@@ -1,7 +1,7 @@
 <?php
 /**
-    * @ author Arun
-	* @ date 3/17/2014
+    * @ author Tej
+	* @ date 22 Aug 2015
 	* Device model
 */
 class Device extends Eloquent  {
@@ -19,5 +19,12 @@ class Device extends Eloquent  {
 	 */
 	protected $hidden = array('');
 
-	
+	public function getAvailIMEIforAuth($imei)
+	{
+		return $availDevice = Device::select('id')
+							->where('imei',trim($imei) )
+							->first();
+
+	}
+
 }

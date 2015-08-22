@@ -16,14 +16,15 @@ class DeviceAuthorizationController extends DeviceController
 	 * Do activate the subscriber from the tv box. And provide the auth token for the communication 
 	 * @return [type] [description]
 	 */
-	public static function doActivateDevice()
+	public function doActivateDevice()
 	{
-		// header('content-type:application/json');
+		header('content-type:application/json');
 		try
 		{
 			$input = Input::all();
-			print_r($input);
 			$objSubscriberModel = new Subscribers();
+			$objDeviceModel = new Device();
+
 			$arrResponse	= array();
 			$arrUserInput	=	array(
 									'username'=>	strtolower(Input::get('username')),
@@ -37,20 +38,31 @@ class DeviceAuthorizationController extends DeviceController
 			{
 				$intUserId 				= Auth::user()->id;
 				$arrCustDetail			= $objSubscriberModel->getSubscriberDetails($intUserId);
+				
 				if($arrCustDetail)
 				{
 					if(!empty($gcmId))
 					{
-						Device::where('imei','=',trim(Input::get('imei')))->update(array('deleted_at'=>DB::raw('now()')));
+						$availDevice = $objDeviceModel->getAvailIMEIforAuth($imei);						
+
 						$strDeviceAuthHash					= Hash::make(microtime().Input::get('password'));
-						$objDeviceModel						= new Device;
-						$objDeviceModel->gcm_id				= Input::get('gcm_id');
-						$objDeviceModel->imei				= Input::get('imei');
-						$objDeviceModel->current_version	= 0;
-						$objDeviceModel->active				= 1;
-						$objDeviceModel->save();
+						if ( !empty($availDevice) ) {
 						
-						Subscribers::where('id', '=', $arrCustDetail[0]['id'])->update(array('device_id'=>$objDeviceModel->id,'auth_token'=>$strDeviceAuthHash));
+							DB::table('subscribers')->where('id', '=', $arrCustDetail[0]['id'])
+													->update(array('device_id'=>$availDevice['id'],'auth_token'=>$strDeviceAuthHash));
+
+						}else{
+							$objDeviceModel->gcm_id				= Input::get('gcm_id');
+							$objDeviceModel->imei				= Input::get('imei');
+							$objDeviceModel->current_version	= 0;
+							$objDeviceModel->active				= 1;
+							$objDeviceModel->save();
+							Subscribers::where('id', '=', $arrCustDetail[0]['id'])->update(array('device_id'=>$objDeviceModel->id,'auth_token'=>$strDeviceAuthHash));
+
+
+						}
+						
+						
 
 						$headerDetails 	=	DB::table('users')
 													->select('users.avatar','users.first_name')
