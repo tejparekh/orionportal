@@ -55,9 +55,11 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'oriondb',
+			// 'database'  => 'oriondb',
+			'database'  => 'oriondb_ufo',
 			'username'  => 'root',
-			'password'  => '0rion@123',
+			'password'  => '',
+			// 'password'  => '0rion@123',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

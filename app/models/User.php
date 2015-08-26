@@ -50,4 +50,13 @@ class User extends Eloquent implements UserInterface	 {
 		return $this->password;
 	}
 	
+	public function getProfileCompleteState($user_id)
+	{
+		$result = DB::table('users')->select('completed_profile')->where('id',$user_id)->get();
+		foreach ($result as $user)
+		{
+			$data = $user->completed_profile;
+		}
+		return $data;
+	}
 }

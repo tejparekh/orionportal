@@ -12,6 +12,10 @@
 */
 Route::get('/', 'RegistrationController@getLoginPage');
 Route::post('/authenticate', 'AuthController@doLogin');
+Route::get('/pre-register', 'RegistrationController@openForAllRegisterPage');
+Route::post('/do-open-register', 'RegistrationController@doOpenForAllRegisterPage');
+
+
 Route::get('/dashboard',array('before'=>'auth','uses'=>'DashboardController@getDashboardPage') );
 
 Route::get('/logout','AuthController@doLogout');
@@ -21,7 +25,10 @@ Route::post('/addsubscriber',array('before'=>'auth','uses'=>'RegistrationControl
 Route::get('/register-device',array('before'=>'auth','uses'=>'DeviceInventoryController@getAddDeviceInventory') );
 Route::post('/add-device',array('before'=>'auth','uses'=>'DeviceInventoryController@doAddDeviceInventory') );
 
+Route::get('/subscribers-list', array('before'=>'auth', 'uses' => 'RegistrationController@getSubscribersList' ) );
 
+/*Grid Controllers Routes*/
+Route::get('/list-grid-subscribers', array('before'=>'auth', 'uses' => 'GridTablesController@getSubscribersGridList') ) ;
 // Services 
 Route::post('/activatedevice', 'DeviceAuthorizationController@doActivateDevice');
 

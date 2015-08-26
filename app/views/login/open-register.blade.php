@@ -21,20 +21,13 @@
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger" align="center">
 												<i class="icon-key green"></i>
-												Please Enter Your Credentials to Login
+												Please fill this form to register as Producer
 											</h4>
 
 											<div class="space-6"></div>
 
 											<div id="login" class="login" align="center">
-												{{ Form::open(array('url'=>'/authenticate','method'=>'POST')) }}
-
-													@if ($errors->has('username'))
-														<div class="alert alert-error" style="color:red;">{{ $errors->first('username', ':message') }}</div>
-													@endif
-													@if ($errors->has('password'))
-														<div class="alert alert-error" style="color:red;">{{ $errors->first('password', ':message') }}</div>
-													@endif
+												{{ Form::open(array('url'=>'/do-open-register','method'=>'POST', 'id' => 'open-register-form' )) }}
 													@if (Session::get('error'))
 													<div class="alert alert-danger">
 																<button type="button" class="close" data-dismiss="alert">
@@ -55,45 +48,50 @@
 														<!-- <div class="alert alert-error" style="color:red;">{{ Session::get('message') }}</div> -->
 													@endif
 													<div class="control-group">
-													<div class="row" style="margin-bottom:0.5em">
-													<div class="col-lg-1">
-													</div>
-													<div class="col-lg-4" style="text-align:center;">
-														{{ Form::label('Username', 'Username',array('class'=>'lbl bigger')) }}
-													</div>
-													<div class="col-lg-5">
-														<div class="controls">
-															{{ Form::text('username') }}
+													<div class="row">
+														  <div class="col-md-6">
+															  <p>{{Form::label('first_name', 'First Name*', array('class'=>'block clearfix'))}}
+															  </div>
+															  <div class="col-md-6">
+															  <p>{{Form::text('first_name',Input::old('first_name'))}}
+														  </div>
+															</div>
+															<div class="row">
+																  <div class="col-md-6">
+																 	<p>{{Form::label('last_name', 'Last Name*', array('class'=>'block clearfix'))}}
+																  </div>
+																  <div class="col-md-6">
+																	<p>{{Form::text('last_name',Input::old('last_name'))}}
+																  </div>
 														</div>
-													</div>
-													<div class="col-lg-1">
-													</div>
-													</div>
-													</div>
-													<div class="control-group">
-													<div class="row" style="margin-bottom:0.5em">
-													<div class="col-lg-1">
-													</div>
-													<div class="col-lg-4">
-														{{ Form::label('password', 'Password',array('class'=>'lbl bigger')) }}
+														<div class="row">
+																  <div class="col-md-6">
+																 	<p>{{Form::label('username', 'Username (Email)*', array('class'=>'block clearfix'))}}
+																  </div>
+																  <div class="col-md-6">
+																	<p>{{Form::text('username',Input::old('username'))}}
+																  </div>
 														</div>
-														<div class="col-lg-5">
-														<div class="controls">
-															{{ Form::password('password') }}
-														</div>
-														</div>
-														<div class="col-lg-1">
-													</div>
-													</div>
-													</div>
-													<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-													<div class="form-actions" style="background:none;border:none;">
-														{{ Form::submit('Login', array('class' => 'btn btn-inverse btn-login')) }}
 
 													</div>
+													
+													<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+													<input type="hidden" name="roles" value="2">
+
+													<div class="row">
+																 <div class="col-md-2"></div>
+																  <div class="col-md-8">
+																	{{ Form::submit('REGISTER', array('class' => 'btn btn-inverse btn-login')) }}
+																  </div>
+																 <div class="col-md-2"></div>
+
+														</div>
+							
 											{{ Form::close() }}
 												</div>
 												
+														
+
 													</div>
 													<div class="toolbar clearfix">
 															<div>
@@ -104,8 +102,8 @@
 															</div>
 
 															<div>
-																<a class="forgot-password-link" href="{{URL('/pre-register')}}" >
-																	I want to Register
+																<a class="forgot-password-link" href="{{URL('/')}}" >
+																	I want to Login
 																	<i class="icon-arrow-right"></i>
 																</a>
 															</div>

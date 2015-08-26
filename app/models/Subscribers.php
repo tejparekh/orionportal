@@ -72,4 +72,24 @@ class Subscribers extends Eloquent  {
 		return Subscribers::where('user_id', '=', $user_id)->toArray();
 	}
 
+
+	public function getSubscribersGridListData ($sortOrder, $offsetValue, $recordsPerPage, $sortColName)
+	{
+		return $arrSubscribers = DB::table('subscribers')
+											->select('users.first_name as name_user','users.id as userID', 'users.username')
+											->join('users','subscribers.user_id','=','users.id')
+											->skip($offsetValue)
+											->take($recordsPerPage)->get();
+
+	}
+
+	public function getSubscribersGridListCount ()
+	{
+		return $arrSubscribers = DB::table('subscribers')
+											->select(DB::raw("users.first_name || ' ' || users.last_name as name_user"),'users.id as userID', 'users.username', 'users.location')
+											->join('users','subscribers.user_id','=','users.id')
+											->count();
+
+	}
+
 }

@@ -34,7 +34,7 @@ class RegistrationController extends BaseController
 	public function doRegisterSubscriber()
 	{
 		$input = Input::all();
-		print_r($input);
+		// print_r($input);
 		try {
 			$regValidator = Validator::make($input, array(
 										    	'username' => 'required|min:5',
@@ -96,5 +96,85 @@ class RegistrationController extends BaseController
 		
 	}
 
+	public function getSubscribersList()
+	{
+		return View::make('listSubscribers', array(
+							'title' => 'Subscribers',
+							'sub_title' => 'Manage Subscribers',
+							'description' => 'Manage Subscribers below.' 
+							)
+	   					 );
+	}
+
+	public function openForAllRegisterPage()
+	{
+		return View::make('login.open-register', array(
+							'title' => 'Register',
+							'sub_title' => 'Producers Registration',
+							'description' => 'Producers can initially register here and then they will have to verify their account and othe details.' 
+							)
+	   					 );
+	}
+	public function doOpenForAllRegisterPage()
+	{
+		$input = Input::all();
+		print_r($input);
+		try {
+			$regValidator = Validator::make($input, array(
+										    	'username' => 'required|min:5|unique:users',
+										        'first_name' => 'required',
+										        'last_name' => 'required',
+												'roles'	=> 'required',
+			    							)
+										);
+			$reasonData = $regValidator->messages();
+        	$reasonData = json_decode($reasonData,true);
+        	foreach($reasonData as $row){
+        		$reasonData = $row;
+        	}
+
+			if ($regValidator->passes() ) {
+				
+				$token = HelperClass::randomToken();
+			
+						$user 					= new User();
+						$user->first_name		= trim($input['first_name']);
+						$user->last_name 		= trim($input['last_name']);
+						$user->username			= $input['username'];
+						$user->active			= 0;
+						$user->role_id			= $input['roles'];
+						$user->completed_profile= FALSE;
+
+						
+						$user->created_by		= 0;
+						
+						$user_id = $user->save();
+						if ($user_id->id) {
+							$producer = new Producer();
+						
+							$producer->user_id = $user->id;
+							$producer->save();
+
+							if ($producer->id) {
+								return Redirect::to('/pre-register')->with('message','Successfully registered.');
+							} else {
+								return Redirect::to('/pre-register')->with('error','Failed to register.'.implode($reasonData) );
+							}
+						}else{
+								return Redirect::to('/pre-register')->with('error','Failed to register.'.implode($reasonData) );
+						}
+						
+						
+
+
+			} else {
+				return Redirect::back()->with(array( 'error'=>  implode($reasonData) ) )->withInput(Input::except('password') );
+			}
+
+		} catch (Exception $e) {
+			return Redirect::back()->with(array( 'error'=>  $e->getMessage() ) )->withInput(Input::except('password') );
+			print_r( );
+		}
+	}
 
 }
