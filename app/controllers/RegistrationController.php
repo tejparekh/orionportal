@@ -141,10 +141,12 @@ class RegistrationController extends BaseController
 						$user->first_name		= trim($input['first_name']);
 						$user->last_name 		= trim($input['last_name']);
 						$user->username			= $input['username'];
+						$password 				= 'orion123';
+						$user->password			= Hash::make($password);
 						$user->active			= 0;
 						$user->role_id			= $input['roles'];
 						$user->completed_profile= FALSE;
-
+						
 						
 						$user->created_by		= 0;
 						
