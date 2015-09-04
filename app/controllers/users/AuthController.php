@@ -65,6 +65,15 @@ class AuthController extends BaseController
 					Session::put('username', $strUsername);
 					Session::put('lastname', $strLastname);
 					Session::put('userid', $intUserId);
+					if(!empty($intRole))
+					{
+						$objRoleModel	= new Role();
+						$arrRole		= $objRoleModel->getRoleDetails($intRole);
+						if(isset($arrRole['name']))
+						{
+							Session::put('ROLE', trim($arrRole['name']) );
+						}
+					}
 
 					return Redirect::to('/dashboard');
 				}else

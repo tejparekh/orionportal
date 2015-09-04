@@ -76,7 +76,7 @@ class Subscribers extends Eloquent  {
 	public function getSubscribersGridListData ($sortOrder, $offsetValue, $recordsPerPage, $sortColName)
 	{
 		return $arrSubscribers = DB::table('subscribers')
-											->select('users.first_name as name_user','users.id as userID', 'users.username')
+											->select('users.first_name as name_user','users.id as userID', 'users.username','subscribers.device_id')
 											->join('users','subscribers.user_id','=','users.id')
 											->skip($offsetValue)
 											->take($recordsPerPage)->get();
@@ -92,4 +92,11 @@ class Subscribers extends Eloquent  {
 
 	}
 
+	public function getSingleSubscriberForEdit($user_id)
+	{
+		return Subscribers::where('subscribers.user_id',$user_id)
+											->where('users.deleted_at' ,'=','0000-00-00 00:00:00')
+											->join('users','subscribers.user_id','=','users.id')
+											->first()->toArray();
+	}
 }

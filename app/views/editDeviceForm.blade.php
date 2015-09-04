@@ -4,7 +4,8 @@
 <!-- PAGE CONTENT BEGINS -->
 @if (Auth::check())
 	<div class="col-lg-12">
-		{{Form::open(array('url'=>'add-device', 'name'=>'device-register-form','id'=>'device-register-form','files'=>'true'))}}
+		{{Form::model($formData, array('url'=>'update-device', 'name'=>'device-register-form','id'=>'device-register-form','files'=>'true'))}}
+		{{Form::hidden('device_id',$device_id )}}
 				<div class="widget-box">
 					<div class="widget-header">
 					<h4>Device Details</h4>
@@ -39,10 +40,10 @@
 
 								<div class="row">
 									  <div class="col-md-2">
-									 	<p>{{Form::label('build_number', 'Software Build Number*', array('class'=>'block clearfix'))}}
+									 	<p>{{Form::label('software_build_number', 'Software Build Number*', array('class'=>'block clearfix'))}}
 									  </div>
 									  <div class="col-md-5">
-										<p>{{Form::text('build_number',Input::old('build_number'))}}
+										<p>{{Form::text('software_build_number',Input::old('software_build_number'))}}
 									  </div>
 								</div>
 								<div class="row">
@@ -61,10 +62,10 @@
 				<div class="row">
 					 
 					  <div class="col-md-2">
-						<p>{{Form::submit('Add New Device',array('class'=>'btn btn-success'))}}	
+						<p>{{Form::submit('Update Device',array('class'=>'btn btn-success'))}}	
 					  </div>
 					  <div class="col-md-2">
-						<p><a href="{{URL('/')}}" class="width-65 btn btn-danger">Cancel</a>
+						<p><a href="{{URL('/devices-list')}}" class="width-65 btn btn-danger">Cancel</a>
 					  </div>
 				</div>
 

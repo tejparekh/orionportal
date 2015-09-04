@@ -9,11 +9,6 @@
 				<div class="widget-box">
 					<div class="widget-header">
 					<h4>Subscriber Details</h4>
-					<div class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="icon-chevron-up"></i>
-						</a>
-					</div>
 
 					</div>
 						<div class="widget-body">
@@ -62,12 +57,6 @@
 				<div class="widget-box">
 					<div class="widget-header">
 					<h4>Device Login Credentials</h4>
-					<div class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="icon-chevron-up"></i>
-						</a>
-					</div>
-
 					</div>
 						<div class="widget-body">
 						<div class="widget-main">

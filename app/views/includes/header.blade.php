@@ -14,25 +14,20 @@
 								<span class="user-info">
 									<small>Welcome,</small>
 									{{ Session::get('username')}}
+
 								</span>
 
 								<i class="icon-caret-down"></i>
 							</a>
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-								<li>
+								<!-- <li>
 									<a href="{{URL('/editprofile')}}">
 										<i class="icon-cog"></i>
 										My Account
 									</a>
-								</li>
-								<li>
-									<a href="{{URL('/support')}}" target="_blank">
-										<i class="icon-flag"></i>
-										Help & Support
-									</a>
-								</li>
-								<li class="divider"></li>
+								</li> -->
+								<!-- <li class="divider"></li> -->
 
 								<li>
 									<a href="{{URL::to('/logout')}}">

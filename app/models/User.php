@@ -59,4 +59,18 @@ class User extends Eloquent implements UserInterface	 {
 		}
 		return $data;
 	}
+
+	public function getProfileDataNewLogin($user_id)
+	{
+		$result = User::where('id',$user_id)->get()->toArray();
+
+		foreach ($result as $key => $value) {
+				foreach ($value as $key => $data) {
+					$getProfile[$key]=$data;
+				}
+			}
+
+		return $getProfile;
+	}
+
 }

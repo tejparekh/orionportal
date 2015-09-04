@@ -22,17 +22,21 @@ class DashboardController extends BaseController
 
 		if ($UserId) {
 			$getProfileState = $objUser->getProfileCompleteState($UserId);
-			if ($getProfileState == 0 ) {
+			$getProfileData = $objUser->getProfileDataNewLogin($UserId);
+			
+			
+			// if ($getProfileState == 0 ) {
 				
-				return View::make('completeProfile', array(
-										'title' => 'Profile',
-										'sub_title' => 'Complete your Profile',
-										'description' => 'Complete your Profile.' 
-										)
-				   					 );
-			}else{
+				// return View::make('completeProfile', array(
+				// 						'title' => 'Profile',
+				// 						'sub_title' => 'Complete your Profile',
+				// 						'description' => 'Complete your Profile.' ,
+				// 						'profileData'=> $getProfileData
+				// 						)
+				//    					 );
+			// }else{
 				return View::make('dashboard');
-			}
+			// }
 
 		}
 		
@@ -83,7 +87,9 @@ class DashboardController extends BaseController
 		return View::make('profileInformation',array('user_id' =>$user_id,'remove_avatar'=>$boolRemoveAvatar,'userInfo'=>$userInfo));
 	}
 
-	public function updateProfileInformation(){
-		
+	public function doUpdateProfileInformation(){
+		$input = Input::all();
+		print_r($input);
+		die;
 	}
 }

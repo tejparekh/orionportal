@@ -43,7 +43,7 @@ Route::filter('auth', function()
 		}
 	}
 	else{
-		if (Auth::guest()) return Redirect::guest('/')->with('flash_error', 'You must be logged in to view this page!');
+		if (Auth::guest()) return Redirect::guest('/')->with('error', 'You must be logged in to view this page!');
 	}
 	
 });
@@ -52,35 +52,44 @@ Route::filter(
 'ONLY_OA', function()
 {
 	$strRole	= Session::get('ROLE');
-	if($strRole	!= "ITL_ADMIN")
+	if($strRole	!= "Orion Super Admin")
+	{
+		App::abort(404);
+	}
+});
+Route::filter(
+'ONLY_A', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "Orion Admin")
 	{
 		App::abort(404);
 	}
 });
 
 Route::filter(
-'OA_P', function()
+'OA_A_P', function()
 {
 	$strRole	= Session::get('ROLE');
-	if($strRole	!= "ITL_ADMIN")
+	if($strRole	!= "Orion Admin" || $strRole	!= "Orion Super Admin" || $strRole	!= "Producer" )
 	{
 		App::abort(404);
 	}
 });
 Route::filter(
-'OA_P_D', function()
+'OA_A_P_D', function()
 {
 	$strRole	= Session::get('ROLE');
-	if($strRole	!= "ITL_ADMIN")
+	if($strRole	!= "Orion Super Admin" || $strRole	!= "Producer" || $strRole	!= "Orion Admin"  || $strRole	!= "Distributor"  )
 	{
 		App::abort(404);
 	}
 });
 Route::filter(
-'OA_P_D_SD', function()
+'OA_A_P_D_SD', function()
 {
 	$strRole	= Session::get('ROLE');
-	if($strRole	!= "ITL_ADMIN")
+	if($strRole	!= "Orion Super Admin" || $strRole	!= "Producer" || $strRole	!= "Orion Admin"  || $strRole	!= "Distributor" || $strRole	!= "Sub Distributor"  )
 	{
 		App::abort(404);
 	}
@@ -89,12 +98,39 @@ Route::filter(
 'ONLY_P', function()
 {
 	$strRole	= Session::get('ROLE');
-	if($strRole	!= "ITL_ADMIN")
+	if($strRole	!= "Producer")
 	{
 		App::abort(404);
 	}
 });
 
+Route::filter(
+'ONLY_D', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "Distributor")
+	{
+		App::abort(404);
+	}
+});
+Route::filter(
+'ONLY_SD', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "Sub Distributor")
+	{
+		App::abort(404);
+	}
+});
+Route::filter(
+'ONLY_SU', function()
+{
+	$strRole	= Session::get('ROLE');
+	if($strRole	!= "Subscriber")
+	{
+		App::abort(404);
+	}
+});
 
 
 Route::filter('auth.basic', function()

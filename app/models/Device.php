@@ -27,4 +27,46 @@ class Device extends Eloquent  {
 
 	}
 
+	public function DevicesGridListData($sortOrder, $offsetValue, $recordsPerPage, $sortColName,$unassigned = null)
+	{
+		return Device::select('devices.model','devices.id','devices.kernel_version','devices.os_version','devices.imei','devices.active')
+											->where('devices.active',$unassigned)
+											->orderBy($sortColName, $sortOrder)
+											->skip($offsetValue)
+											->take($recordsPerPage)->get()->toArray();
+
+	}
+
+	public function getDevicesGridListCount ($unassigned)
+	{
+		return $arrSubscribers = DB::table('devices')
+											->select('devices.model','devices.id','devices.kernel_version','devices.os_version')
+											->where('devices.active',$unassigned)
+											->count();
+
+	}
+
+	public function DevicesGridListDataAll($sortOrder, $offsetValue, $recordsPerPage, $sortColName)
+	{
+		return Device::select('devices.model','devices.id','devices.kernel_version','devices.os_version','devices.imei','devices.active')
+											->orderBy($sortColName, $sortOrder)
+											->skip($offsetValue)
+											->take($recordsPerPage)->get()->toArray();
+
+	}
+	public function getDevicesGridListAllCount ()
+	{
+		return $arrSubscribers = DB::table('devices')
+											->select('devices.model','devices.id','devices.kernel_version','devices.os_version')
+											->count();
+
+	}
+
+	public function getSingleDeviceForEdit($device_id)
+	{
+		return Device::where('devices.id',$device_id)
+											->where('devices.deleted_at' ,'=','0000-00-00 00:00:00')
+											->first()->toArray();
+	}
+
 }
